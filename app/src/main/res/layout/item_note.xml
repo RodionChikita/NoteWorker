@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+   android:layout_margin="3dp" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center"
+        android:background="?android:attr/selectableItemBackground">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/item_note_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:textColor="@color/colorPrimary"
+                tools:text="Name"/>
+
+            <TextView
+                android:id="@+id/item_note_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Description..."/>
+
+            <TextView
+                android:id="@+id/item_note_date"
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="08.06.2020"/>
+        </LinearLayout>
+        <ImageButton
+            android:id="@+id/item_note_delete_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete"
+            android:tint="@color/colorAccent"
+            android:padding="16dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
