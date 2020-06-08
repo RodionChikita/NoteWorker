@@ -16,7 +16,10 @@ import java.util.Locale;
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> {
 
 
+    private DBHelper dbHelper;
     private List<Note> data;
+
+
 
     public NotesAdapter() {
     }
@@ -33,17 +36,35 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).
-                inflate(R.layout.item_note, parent, false));
+        dbHelper = new DBHelper(parent.getContext());
+        View view = LayoutInflater.from(parent.getContext()).
+                inflate(R.layout.item_note, parent, false);
+        view.setOnClickListener(MainActivity.myOnClickListener);
+        NotesAdapter.ViewHolder myViewHolder = new NotesAdapter.ViewHolder(view);
+        return myViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-       holder.nameText.setText(data.get(position).getName());
-       holder.descriptionText.setText(data.get(position).getDescription());
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+        String name = data.get(position).getName();
+        if (name.length()>18)
+            name=name.substring(0,18)+"...";
+       holder.nameText.setText(name);
+
+       String description = data.get(position).getDescription();
+       if (description.length()>11)
+           description = description.substring(0,11)+"...";
+       holder.descriptionText.setText(description);
+
         SimpleDateFormat formatDate = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
        holder.dateText.setText(data.get(position).getDate());
-
+    holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            dbHelper.deleteNote(data.get(position));
+            MainActivity.Update();
+        }
+    });
     }
 
     @Override
@@ -64,9 +85,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
          descriptionText = itemView.findViewById(R.id.item_note_description);
          dateText = itemView.findViewById(R.id.item_note_date);
          deleteBtn = itemView.findViewById(R.id.item_note_delete_btn);
-
-
-
      }
  }
 

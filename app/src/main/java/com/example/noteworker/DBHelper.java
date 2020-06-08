@@ -15,7 +15,7 @@ import java.util.List;
 public class DBHelper {
 
     private static final String DB_NAME="notes.db";
-    private static final int DB_VERSION=9;
+    private static final int DB_VERSION=12;
     public static final String NOTES_TABLE = "notes";
 
     public static final String NOTE_ID = "id";
@@ -34,6 +34,9 @@ public class DBHelper {
     public DBHelper(Context context) {
         SQLHelper dbHelper = new SQLHelper(context);
         db = dbHelper.getWritableDatabase();
+    }
+
+    public static void getInstance() {
     }
 
     public long insert(Note note) {
@@ -65,6 +68,13 @@ public class DBHelper {
 
     public void deleteNote(Note note){
             db.delete(NOTES_TABLE, NOTE_ID + "="+note.getId(), null);
+    }
+
+    public int update(Note note) {
+        ContentValues cv=new ContentValues();
+        cv.put(NOTE_NAME, note.getName());
+        cv.put(NOTE_DESCRIPTION, note.getDescription());
+        return db.update(NOTES_TABLE, cv, NOTE_ID + " = ?",new String[] { String.valueOf(note.getId())});
     }
     private class SQLHelper extends SQLiteOpenHelper {
 
